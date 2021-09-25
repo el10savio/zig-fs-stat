@@ -1,0 +1,1 @@
+824112 22701872 1632591060194197274 89b9ed10744cdd9d93a3c244252a3924 /home/elton/Programming/zig/fs_stat/zig-cache/o/ab9ce3f63c9bf13319da511274fa5adf/fs_stat.o
