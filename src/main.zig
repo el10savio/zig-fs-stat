@@ -6,19 +6,13 @@ const fs = std.fs;
 
 pub fn main() anyerror!void {
     // Process input arguments
-    var allocator = std.heap.page_allocator;
-    var iter = std.process.args();
+    const allocator = std.heap.page_allocator;
+    const args = try std.process.argsAlloc(allocator);
+    defer std.process.argsFree(allocator, args);
 
-    // Skip binary name
-    // which is the first argument
-    _ = iter.skip();
+    if (args.len != 2) return error.ExpectedArgument;
 
-    // Iterate through all paths
-    while (iter.next(allocator)) |arg| {
-        const path = arg catch break;
-        defer allocator.free(path);
-        try getFileStat(path);
-    }
+    try getFileStat(args[1]);
 }
 
 // todo: input validation
@@ -41,5 +35,4 @@ pub fn printFileStat(path: []const u8, stat: fs.File.Stat) anyerror!void {
     try stdout.print("atime: {}\n", .{stat.atime});
     try stdout.print("mtime: {}\n", .{stat.mtime});
     try stdout.print("ctime: {}\n", .{stat.ctime});
-    try stdout.print("\n", .{});
 }
